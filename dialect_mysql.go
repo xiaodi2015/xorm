@@ -386,12 +386,30 @@ func (db *mysql) GetColumns(tableName string) ([]string, map[string]*core.Column
 				}
 			}
 		}
-		if colType == "FLOAT UNSIGNED" {
-			colType = "FLOAT"
+
+		switch colType {
+			case "FLOAT UNSIGNED":
+				colType = "FLOAT"
+				break
+			case "DOUBLE UNSIGNED":
+				colType = "DOUBLE"
+				break
+			case "TINYINT UNSIGNED":
+				colType = "TINYINT"
+				break
+			case "SMALLINT UNSIGNED":
+				colType = "SMALLINT"
+				break
+			case "INT UNSIGNED":
+				colType = "INT"
+				break
+			case "BIGINT UNSIGNED":
+				colType = "BIGINT"
+				break
+			default:
+				break
 		}
-		if colType == "DOUBLE UNSIGNED" {
-			colType = "DOUBLE"
-		}
+		
 		col.Length = len1
 		col.Length2 = len2
 		if _, ok := core.SqlTypes[colType]; ok {
